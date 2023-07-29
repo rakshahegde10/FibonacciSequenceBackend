@@ -35,4 +35,38 @@ describe('Fibonacci API', () => {
     expect(response.body).toEqual({ error: 'Please provide a valid positive integer.' });
   });
 
+  it('should return an error if the input is a negative number', async () => {
+    const response = await request(app).post('/api/fibonacci/').send({ inputNumber: -5 });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({ error: 'Please provide a valid positive integer.' });
+  });
+
+  it('should return an error if the input is zero', async () => {
+    const response = await request(app).post('/api/fibonacci/').send({ inputNumber: 0 });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({ error: 'Please provide a valid positive integer.' });
+  });
+
+  it('should generate and return a Fibonacci sequence for a large input number', async () => {
+    const response = await request(app).post('/api/fibonacci/').send({ inputNumber: 25 });
+
+    expect(response.status).toBe(200);
+    expect(response.body.fibonacciNumbers).toHaveLength(25);
+  });
+
+  it('should return an error if the inputNumber field is missing', async () => {
+    const response = await request(app).post('/api/fibonacci/').send({});
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({ error: 'Please provide a valid positive integer.' });
+  });
+
+  it('should return 404 Not Found for an invalid endpoint', async () => {
+    const response = await request(app).post('/api/invalid_endpoint/').send({ inputNumber: 5 });
+
+    expect(response.status).toBe(404);
+  });
+
 });
