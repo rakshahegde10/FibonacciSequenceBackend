@@ -32,3 +32,17 @@ cd your-repository
 ```
 npm install
 ```
+
+### Database Setup
+
+Make sure you have PostgreSQL installed and running. The Database credentials are stored in the .env file and it should look like below:
+
+```
+DB_DATABASE=fibonacciGenerator
+DB_USERNAME=postgres
+DB_PASSWORD=password
+DB_HOST=localhost
+DB_DIALECT=postgres
+```
+
+These are then called from 'src/config/database.ts' to connect to the Postgres Database.
