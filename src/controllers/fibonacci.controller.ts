@@ -1,5 +1,70 @@
-export const generateFibonacciData = async () => {
+import { Request, Response } from 'express';
+import Fibonacci from '../models/fibonacci.model';
 
-  //
 
+// Function to generate Fibonacci numbers up to the given input number
+const generateFibonacciNumbers = (inputNumber: number): number[] => {
+  const fibNumbers: number[] = [0, 1];
+  for (let i = 2; i < inputNumber; i++) {
+    const nextFib = fibNumbers[i - 1] + fibNumbers[i - 2];
+    fibNumbers.push(nextFib);
+  }
+  return fibNumbers;
 };
+
+// Controller function to handle the generation and retrieval of Fibonacci data
+export const generateFibonacciData = async (req: Request, res: Response) => {
+
+  const { inputNumber } = req.body; // get the inputNumber from request body
+  const numberValue = parseInt(inputNumber, 10); // Convert to a valid positive integer
+
+  try {
+    // If the entry does not exist then generate a new Fibonacci sequence
+    const result = generateFibonacciNumbers(numberValue);
+    const fibSequence = result.join(', ');
+
+    // Prepare the new Fibonacci entry object
+    const newFib = {
+      inputNumber: numberValue,
+      fibSequence: fibSequence,
+      id: 0
+    };
+
+    const newFibonacci = Fibonacci.build(newFib);
+    newFibonacci.save(); //save to database
+
+    res.status(200).json({ fibonacciNumbers: result });
+
+  } catch (error) {
+    console.error('Error during generation of Fibonacci Data:', error);
+    res.status(500).json({ error: 'Internal server error during generating/fetching Fibonacci Data' });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
