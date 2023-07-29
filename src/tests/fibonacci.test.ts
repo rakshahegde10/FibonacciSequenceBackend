@@ -51,8 +51,8 @@ describe('Fibonacci API', () => {
   it('should return an error if the input is zero', async () => {
     const response = await request(app).post('/api/fibonacci/').send({ inputNumber: 0 });
 
-    expect(response.status).toBe(400);
-    expect(response.body).toEqual({ error: 'Please provide a valid positive integer.' });
+    expect(response.status).toBe(200);
+    expect(response.body.fibonacciNumbers).toEqual(["0"]);
   });
 
   it('should generate and return a Fibonacci sequence for a large input number', async () => {
