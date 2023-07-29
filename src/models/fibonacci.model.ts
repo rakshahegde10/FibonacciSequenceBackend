@@ -8,7 +8,7 @@ export interface FibonacciAttributes {
 }
 
 class Fibonacci extends Model<FibonacciAttributes> {
-  public id?: number;
+  public id!: number;
   public inputNumber!: number;
   public fibSequence!: string;
 }

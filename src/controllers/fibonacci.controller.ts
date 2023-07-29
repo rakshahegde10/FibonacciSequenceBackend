@@ -19,9 +19,19 @@ export const generateFibonacciData = async (req: Request, res: Response) => {
   const numberValue = parseInt(inputNumber, 10); // Convert to a valid positive integer
 
   try {
-    // If the entry does not exist then generate a new Fibonacci sequence
-    const result = generateFibonacciNumbers(numberValue);
-    const fibSequence = result.join(', ');
+
+    // Check if entry already exists in the database
+    const existingFibonacci = await Fibonacci.findOne({
+      where: { inputNumber: numberValue },
+    });
+
+    if (existingFibonacci) {
+      // If the entry exists then return the existing Fibonacci sequence
+      return res.status(200).json({ fibonacciNumbers: existingFibonacci.fibSequence.split(', ') });
+    } else {
+      // If the entry does not exist then generate a new Fibonacci sequence
+      const result = generateFibonacciNumbers(numberValue);
+      const fibSequence = result.join(', ');
 
     // Prepare the new Fibonacci entry object
     const newFib = {
@@ -34,7 +44,7 @@ export const generateFibonacciData = async (req: Request, res: Response) => {
     newFibonacci.save(); //save to database
 
     res.status(200).json({ fibonacciNumbers: result });
-
+   }
   } catch (error) {
     console.error('Error during generation of Fibonacci Data:', error);
     res.status(500).json({ error: 'Internal server error during generating/fetching Fibonacci Data' });
