@@ -4,6 +4,11 @@ import Fibonacci from '../models/fibonacci.model';
 
 // Function to generate Fibonacci numbers up to the given input number
 const generateFibonacciNumbers = (inputNumber: number): number[] => {
+  if (inputNumber <= 0) {
+    return [0];
+  } else if (inputNumber === 1) {
+    return [1];
+  }
   const fibNumbers: number[] = [0, 1];
   for (let i = 2; i < inputNumber; i++) {
     const nextFib = fibNumbers[i - 1] + fibNumbers[i - 2];
@@ -19,7 +24,7 @@ export const generateFibonacciData = async (req: Request, res: Response) => {
 
   const numberValue = parseInt(inputNumber, 10); // Convert to a valid positive integer
 
-  if (isNaN(numberValue) || numberValue <= 0) {
+  if (isNaN(numberValue) || numberValue < 0) {
     return res.status(400).json({ error: 'Please provide a valid positive integer.' });
   }
 
