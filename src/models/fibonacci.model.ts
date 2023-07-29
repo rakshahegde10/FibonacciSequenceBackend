@@ -2,7 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 
 export interface FibonacciAttributes {
-  id?: number;
+  id: number;
   inputNumber: number;
   fibSequence: string;
 }
@@ -19,7 +19,6 @@ Fibonacci.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
     },
     inputNumber: {
       type: DataTypes.INTEGER,
@@ -32,7 +31,8 @@ Fibonacci.init(
   },
   {
     tableName: 'fibonacci',
-    sequelize
+    sequelize,
+    timestamps: false,
   }
 );
 

@@ -16,7 +16,14 @@ const generateFibonacciNumbers = (inputNumber: number): number[] => {
 export const generateFibonacciData = async (req: Request, res: Response) => {
 
   const { inputNumber } = req.body; // get the inputNumber from request body
+
   const numberValue = parseInt(inputNumber, 10); // Convert to a valid positive integer
+
+  if (isNaN(numberValue) || numberValue <= 0) {
+    return res.status(400).json({ error: 'Please provide a valid positive integer.' });
+  }
+
+  const existingFibonacciCount = await Fibonacci.count(); // Count the number of existing Fibonacci entries in the database
 
   try {
 
@@ -39,6 +46,8 @@ export const generateFibonacciData = async (req: Request, res: Response) => {
       fibSequence: fibSequence,
       id: 0
     };
+
+    newFib.id = existingFibonacciCount + 1; //to increment id in database
 
     const newFibonacci = Fibonacci.build(newFib);
     newFibonacci.save(); //save to database

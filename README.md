@@ -35,7 +35,17 @@ npm install
 
 ### Database Setup
 
-Make sure you have PostgreSQL installed and running. The Database credentials are stored in the .env file and it should look like below:
+Make sure you have PostgreSQL installed and running.
+Download Postgres through this link https://www.postgresql.org/docs/current/tutorial-install.html and you can also download the application pgAdmin4 here https://www.pgadmin.org/download/
+Follow the steps in the following link to create a database and a table. (https://www.pgadmin.org/docs/pgadmin4/development/getting_started.html)
+
+You can create a table as shown below for the Fibanocci Generator.
+Here id column (Datatype in postgres: bigint) is the primary key. inputNumber column (Datatype in postgres: bigint) will have the number given by the user and fibSequence column (Datatype in postgres: test) will have the Fibanocci sequence.
+
+![postgres-database](assets/postgres-database.png)
+
+Now you can access the database at ease. Note down the credentials while creating the database because you will need to create a .env file adn store them in it.
+The credentials are stored in the .env file and it should look like below:
 
 ```
 DB_DATABASE=fibonacciGenerator
@@ -46,3 +56,4 @@ DB_DIALECT=postgres
 ```
 
 These are then called from 'src/config/database.ts' to connect to the Postgres Database.
+
